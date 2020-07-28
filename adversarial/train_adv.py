@@ -9,7 +9,7 @@ from torch import nn
 import torch.nn.functional as F
 from torchtext import data
 from argparse import ArgumentParser
-# from torch.utils.tensorboard import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 import tqdm     # CLI progress bar
 import pandas as pd
 import numpy as np
@@ -19,7 +19,7 @@ from decoder import top_p_sampling, scheduled_sampler, top_k_sampling, greedy_sa
 
 batch_size = 1
 use_cuda_if_available = True
-
+board = SummaryWriter()
 
 def main(arg):
 
@@ -116,6 +116,8 @@ def main(arg):
 
         print("epoch", epoch, "training_loss", training_loss)
         training_loss_list.append(training_loss)
+
+        board.add_scalar('training loss', training_loss, epoch)
 
         """
         with torch.no_grad():
