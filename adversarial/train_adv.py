@@ -85,8 +85,6 @@ def main(arg):
                 target_tokens = tokenizer.encode(target)
                 indexed_tokens = source_tokens
                 target_token = target_tokens[0]
-                indexed_tokens.to(device)
-                target_token.to(device)
                 predicted_tokens = []
                 loss = 0
                 num_pred = 0
