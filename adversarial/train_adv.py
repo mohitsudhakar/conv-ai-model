@@ -26,7 +26,10 @@ def main(arg):
     device = 'cuda' if use_cuda_if_available and torch.cuda.is_available() else 'cpu'
     print("Device: ", device)
 
-    convtexts = pd.read_csv('toxic.tsv', sep='\t')
+    try:
+        convtexts = pd.read_csv('toxic.tsv', sep='\t')
+    except:
+        convtexts = pd.read_csv('adversarial/toxic.tsv', sep='\t')
     convtexts = np.array(convtexts).tolist()
     train_data_loader = torch.utils.data.DataLoader(convtexts, batch_size=batch_size, shuffle=True)
     validation_data_loader = torch.utils.data.DataLoader(convtexts, batch_size=batch_size, shuffle=False)
@@ -82,13 +85,15 @@ def main(arg):
                 target_tokens = tokenizer.encode(target)
                 indexed_tokens = source_tokens
                 target_token = target_tokens[0]
+                indexed_tokens.to(device)
+                target_token.to(device)
                 predicted_tokens = []
-                predicted_word = ''
                 loss = 0
                 num_pred = 0
                 while num_pred < 50:
                     num_pred += 1
                     tokens_tensor = torch.tensor([indexed_tokens])
+                    tokens_tensor.to(device)
                     outputs = model(tokens_tensor)
                     predictions = outputs[0][0][-1]
                     pred_prob = F.softmax(predictions)
