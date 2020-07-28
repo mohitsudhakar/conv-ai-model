@@ -13,10 +13,10 @@ class ConvAIDataset(Dataset):
         """
         with open(self.filename, 'r') as f:
             chats = []
-            lines = f.readlines()
+            lines = f.readlines() [:10]
             in_persona, in_dialog = False, False
             chat = {'dialog':[], 'persona':[]}
-            for line in lines[:20]:
+            for line in lines:
                 line = line.strip()
                 if len(line) == 0:
                     continue

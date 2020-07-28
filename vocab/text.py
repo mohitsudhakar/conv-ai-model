@@ -65,7 +65,7 @@ class BPEVocab:
 
         return set(zip(string[:-1], string[1:]))
 
-    def __init__(self, vocab, codes, tokenizer=SpacyLowerTokenizer()):
+    def __init__(self, vocab='vocab/bpe.vocab', codes='vocab/bpe.code', tokenizer=SpacyLowerTokenizer()):
         # TODO: add check for special tokens
         self.spec_tokens = [BPEVocab.pad_token, BPEVocab.bos_token, BPEVocab.eos_token,
                             BPEVocab.info_bos, BPEVocab.info_eos, BPEVocab.talker1_bos,
